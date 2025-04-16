@@ -83,10 +83,11 @@ TEMPLATES = [
 WSGI_APPLICATION = 'core.wsgi.application'
 
 CLOUDINARY_STORAGE = {
-    'CLOUD_NAME': os.getenv('CLOUDINARY_CLOUD_NAME'),
-    'API_KEY': os.getenv('CLOUDINARY_API_KEY'),
-    'API_SECRET': os.getenv('CLOUDINARY_API_SECRET'), 
+    'CLOUD_NAME': 'dbzsgl0sp',
+    'API_KEY': '179512734979261',
+    'API_SECRET': '_8S6hod78wcjZZsLzofmPqT6v-0', 
 }
+
 
 MEDIA_URL = '/media/'
 STATIC_URL = '/static/'
