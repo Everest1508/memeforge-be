@@ -1,0 +1,6 @@
+*.py text
+*.html text
+*.css text
+*.js text
+Dockerfile text
+requirements.txt text
