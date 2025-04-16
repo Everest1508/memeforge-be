@@ -100,6 +100,8 @@ STORAGES = {
     },
 }
 
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')  # for collectstatic
+
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
