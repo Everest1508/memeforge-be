@@ -7,7 +7,6 @@ class ImageSerializer(serializers.ModelSerializer):
         fields = ['id', 'title', 'short_description', 'image', 'uploaded_at']
 
 class ImageCategorySerializer(serializers.ModelSerializer):
-    images = ImageSerializer(many=True, read_only=True)
 
     class Meta:
         model = ImageCategory
