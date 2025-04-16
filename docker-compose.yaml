@@ -1,45 +1,6 @@
 services:
   web:
     build: .
-    command: gunicorn core.wsgi:application --bind 0.0.0.0:8000
-    volumes:
-      - .:/app
-      - static_volume:/app/staticfiles
-      - media_volume:/app/media
-    env_file:
-      - .env
-    expose:
-      - "8000"
-    networks:
-      - backend
-
-  nginx:
-    build:
-      context: .
-      dockerfile: Dockerfile.nginx
-    container_name: nginx_proxy
-    ports:
-      - "80:80"
-    depends_on:
-      - web
-    volumes:
-      - static_volume:/app/staticfiles
-      - media_volume:/app/media
-    networks:
-      - backend
-
-networks:
-  backend:
-    driver: bridge
-
-volumes:
-  static_volume:
-  media_volume:
-
-
-services:
-  web:
-    build: .
     container_name: django_app
     command: gunicorn core.wsgi:application --bind 0.0.0.0:8000
     volumes:
