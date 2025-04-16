@@ -20,7 +20,7 @@ class ImageAdmin(ImportExportModelAdmin):
 
     def image_preview(self, obj):
         if obj.image:
-            return format_html('<img src="{}" style="max-height: 200px; max-width: 300px;" />', obj.image.url)
+            return format_html('<img src="{}" style="max-height: 100px; max-width: 300px;" />', obj.image.url)
         return "No image available"
     
     image_preview.short_description = "Image Preview"
