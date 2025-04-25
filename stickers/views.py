@@ -1,5 +1,7 @@
 from rest_framework import generics
-from .models import ImageCategory, Image
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from .models import ImageCategory, Image, Template
 from .serializers import ImageCategorySerializer, ImageSerializer
 
 # List all categories with their images
@@ -14,3 +16,12 @@ class CategoryImageListView(generics.ListAPIView):
     def get_queryset(self):
         slug = self.kwargs['slug']
         return Image.objects.filter(category__slug=slug)
+
+
+from .serializers import TemplateSerializer
+
+class TemplateListView(APIView):
+    def get(self, request):
+        templates = Template.objects.all()
+        serializer = TemplateSerializer(templates, many=True)
+        return Response(serializer.data)

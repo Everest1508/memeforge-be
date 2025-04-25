@@ -30,3 +30,12 @@ class TeamMember(models.Model):
 
     def __str__(self):
         return self.name
+    
+class Template(models.Model):
+    name = models.CharField(max_length=100)
+    image = models.ImageField(upload_to='templates/')
+    short_description = models.TextField(blank=True)
+    uploaded_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.name
