@@ -61,3 +61,47 @@
 #             echo "✅ Deployment complete."
 #             df -h /
 #           EOF
+
+
+name: Deploy to Server
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Step 1: Checkout code
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # Step 2: Install sshpass
+      - name: Install sshpass
+        run: sudo apt-get update && sudo apt-get install -y sshpass
+
+      # Step 3: Deploy via SSH using password
+      - name: Deploy to Server
+        env:
+          SSHPASS: ${{ secrets.SERVER_PASSWORD }}
+        run: |
+          sshpass -e ssh -o StrictHostKeyChecking=no ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }} << 'EOF'
+            set -e
+
+            echo "🚀 Starting deployment on memeforge-be..."
+
+            
+            cd /root/memeforge-be
+
+            echo "🚀 Pulling latest code..."
+            git pull origin main
+
+            echo "🧹 Stopping old containers..."
+            sudo docker compose restart
+
+            echo "✅ Deployment complete."
+            df -h /
+          EOF

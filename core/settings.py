@@ -147,7 +147,7 @@ CORS_ALLOWED_ORIGINS = [
     "https://memeforge-v1.vercel.app",
     "https://memeforge.lol",
     "https://www.memeforge.lol",
-
+    "https://*.vercel.app",
 ]
 
 CSRF_TRUSTED_ORIGINS = [
