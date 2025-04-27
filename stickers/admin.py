@@ -4,12 +4,25 @@ from .models import Image, ImageCategory, TeamMember, Template
 from django_summernote.admin import SummernoteModelAdmin
 from django.utils.html import format_html
 
+class ImageInline(admin.TabularInline):
+    model = Image
+    extra = 1 
+    fields = ('title', 'image', 'short_description')
+    readonly_fields = ('image_preview',)
+    show_change_link = True 
 
+    def image_preview(self, obj):
+        if obj.image:
+            return format_html('<img src="{}" style="max-height: 100px; max-width: 300px;" />', obj.image.url)
+        return "No image available"
+    
+    image_preview.short_description = "Image Preview"
 
 @admin.register(ImageCategory)
 class ImageCategoryAdmin(ImportExportModelAdmin):
     list_display = ('name', 'slug')
     prepopulated_fields = {"slug": ("name",)}
+    inlines = [ImageInline]
 
 @admin.register(Image)
 class ImageAdmin(ImportExportModelAdmin):

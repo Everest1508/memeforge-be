@@ -1,68 +1,3 @@
-# name: Deploy to Server
-
-# on:
-#   push:
-#     branches:
-#       - main
-
-# jobs:
-#   deploy:
-#     runs-on: ubuntu-latest
-
-#     steps:
-#       # Step 1: Checkout code
-#       - name: Checkout code
-#         uses: actions/checkout@v3
-
-#       # Step 2: Install sshpass
-#       - name: Install sshpass
-#         run: sudo apt-get update && sudo apt-get install -y sshpass
-
-#       # Step 3: Deploy via SSH using password
-#       - name: Deploy to Server
-#         env:
-#           SSHPASS: ${{ secrets.SERVER_PASSWORD }}
-#         run: |
-#           sshpass -e ssh -o StrictHostKeyChecking=no ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }} << 'EOF'
-#             set -e
-
-#             echo "🚀 Starting deployment on memeforge-be..."
-
-#             sudo docker system prune -af --volumes
-#             sudo apt-get clean
-#             sudo journalctl --vacuum-time=2d
-#             sudo find /var/log -type f -name "*.log" -delete || true
-#             df -h /
-
-#             cd /root/memeforge-be
-
-#             echo "🚀 Pulling latest code..."
-#             git pull origin main
-
-#             echo "🧹 Stopping old containers..."
-#             docker compose down --remove-orphans
-
-#             echo "🧼 Cleaning Docker logs..."
-#             find /var/lib/docker/containers/ -name '*-json.log' -exec truncate -s 0 {} \; || true
-
-#             echo "🧹 Pruning Docker images and containers..."
-#             docker image prune -af || true
-#             docker container prune -f || true
-#             docker volume prune -f || true
-#             docker network prune -f || true
-
-#             echo "🛠️ Building and starting services..."
-#             docker compose up -d --build --remove-orphans
-
-#             echo "📦 Running Django migrations..."
-#             docker exec django_app python manage.py makemigrations || true
-#             docker exec django_app python manage.py migrate || true
-
-#             echo "✅ Deployment complete."
-#             df -h /
-#           EOF
-
-
 name: Deploy to Server
 
 on:
@@ -93,15 +28,80 @@ jobs:
 
             echo "🚀 Starting deployment on memeforge-be..."
 
-            
+            sudo docker system prune -af --volumes
+            sudo apt-get clean
+            sudo journalctl --vacuum-time=2d
+            sudo find /var/log -type f -name "*.log" -delete || true
+            df -h /
+
             cd /root/memeforge-be
 
             echo "🚀 Pulling latest code..."
             git pull origin main
 
             echo "🧹 Stopping old containers..."
-            sudo docker compose restart
+            docker compose down --remove-orphans
+
+            echo "🧼 Cleaning Docker logs..."
+            find /var/lib/docker/containers/ -name '*-json.log' -exec truncate -s 0 {} \; || true
+
+            echo "🧹 Pruning Docker images and containers..."
+            docker image prune -af || true
+            docker container prune -f || true
+            docker volume prune -f || true
+            docker network prune -f || true
+
+            echo "🛠️ Building and starting services..."
+            docker compose up -d --build --remove-orphans
+
+            echo "📦 Running Django migrations..."
+            docker exec django_app python manage.py makemigrations || true
+            docker exec django_app python manage.py migrate || true
 
             echo "✅ Deployment complete."
             df -h /
           EOF
+
+
+# name: Deploy to Server
+
+# on:
+#   push:
+#     branches:
+#       - main
+
+# jobs:
+#   deploy:
+#     runs-on: ubuntu-latest
+
+#     steps:
+#       # Step 1: Checkout code
+#       - name: Checkout code
+#         uses: actions/checkout@v3
+
+#       # Step 2: Install sshpass
+#       - name: Install sshpass
+#         run: sudo apt-get update && sudo apt-get install -y sshpass
+
+#       # Step 3: Deploy via SSH using password
+#       - name: Deploy to Server
+#         env:
+#           SSHPASS: ${{ secrets.SERVER_PASSWORD }}
+#         run: |
+#           sshpass -e ssh -o StrictHostKeyChecking=no ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }} << 'EOF'
+#             set -e
+
+#             echo "🚀 Starting deployment on memeforge-be..."
+
+            
+#             cd /root/memeforge-be
+
+#             echo "🚀 Pulling latest code..."
+#             git pull origin main
+
+#             echo "🧹 Stopping old containers..."
+#             sudo docker compose restart
+
+#             echo "✅ Deployment complete."
+#             df -h /
+#           EOF
