@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'import_export',
     'stickers',
     'django_summernote',
+    'submissions',
 ]
 
 MIDDLEWARE = [
