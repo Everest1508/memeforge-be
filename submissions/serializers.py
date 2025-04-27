@@ -4,4 +4,5 @@ from .models import UserSubmission
 class UserSubmissionSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserSubmission
-        fields = ['id', 'vercel_blob_url', 'email', 'x_post_url', 'created_at']
+        fields = ['vercel_blob_url', 'email', 'created_at']
+        read_only_fields = ['created_at']  # Prevent clients from modifying 'created_at'
