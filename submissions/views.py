@@ -16,7 +16,7 @@ class UserSubmissionListCreateView(generics.ListCreateAPIView):
 
         # Check if a submission already exists for this email today
         email = serializer.validated_data.get('email')
-        if UserSubmission.objects.filter(email=email, submission_date=today).exists():
+        if UserSubmission.objects.filter(email=email, created_at__date=today).exists():
             raise ValidationError(f"You have already submitted a meme today, {email}.")
 
         # If no submission exists, proceed with creating a new one
