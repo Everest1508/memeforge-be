@@ -41,3 +41,35 @@ class UserSubmissionListCreateView(generics.ListCreateAPIView):
                 {"message": "You already submitted today, but the meme is accepted."}, 
                 status=status.HTTP_200_OK
             )
+
+
+
+class CheckUserSubmissionView(generics.GenericAPIView):
+    """
+    API endpoint to check if the user has already submitted a meme today.
+    """
+    def get(self, request, *args, **kwargs):
+        # Get the email from query parameters
+        email = request.query_params.get('email')
+
+        if not email:
+            return Response(
+                {"message": "Email parameter is required."},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        # Get the current date
+        today = date.today()
+
+        # Check if a submission already exists for this email today
+        if UserSubmission.objects.filter(email=email, created_at__date=today).exists():
+            return Response(
+                {"message": "You have already submitted a meme today."},
+                status=status.HTTP_200_OK
+            )
+        
+        # If no submission exists, return a success message
+        return Response(
+            {"message": "You have not submitted a meme today."},
+            status=status.HTTP_200_OK
+        )
