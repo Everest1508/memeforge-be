@@ -24,3 +24,4 @@ urllib3==2.2.2
 webencodings==0.5.1
 whitenoise==6.7.0
 gunicorn
+django-daisy==1.0.23
