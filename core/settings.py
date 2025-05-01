@@ -35,7 +35,9 @@ ALLOWED_HOSTS = ["*"]
 # Application definition
 
 INSTALLED_APPS = [
+    'django_daisy',
     'django.contrib.admin',
+    'django.contrib.humanize',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
@@ -129,6 +131,10 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
+STATICFILES_DIRS = [
+    BASE_DIR / "static",
+]
+
 
 
 # Default primary key field type
@@ -155,3 +161,28 @@ CSRF_TRUSTED_ORIGINS = [
     "https://memeforge.mooo.com",
     os.getenv("IP_ADDRESS"),
 ]
+
+
+DAISY_SETTINGS = {
+    'SITE_TITLE': 'Memeforge Admin',  # The title of the site 
+    'SITE_HEADER': 'Administration',  # Header text displayed in the admin panel
+    'INDEX_TITLE': 'Hi, welcome to your dashboard',  # The title for the index page of dashboard
+    'SITE_LOGO': '/static/img/logo.png',  # Path to the logo image displayed in the sidebar
+    'EXTRA_STYLES': [],  # List of extra stylesheets to be loaded in base.html (optional)
+    'EXTRA_SCRIPTS': [],  # List of extra script URLs to be loaded in base.html (optional)
+    'LOAD_FULL_STYLES': False,  # If True, loads full DaisyUI components in the admin (useful if you have custom template overrides)
+    'SHOW_CHANGELIST_FILTER': False,  # If True, the filter sidebar will open by default on changelist views
+    'DONT_SUPPORT_ME': True,
+    'SIDEBAR_FOOTNOTE': 'meme!!',
+    'APPS_REORDER': {
+        'auth': {
+            'icon': 'fa-solid fa-person-military-pointing',
+            'name': 'Authentication',
+            'hide': False, 
+            'divider_title': "Auth", 
+        },
+        'social_django': {
+            'icon': 'fa-solid fa-users-gear',
+        },
+    },
+}
