@@ -6,6 +6,7 @@ class Featured(models.Model):
     description = models.TextField()
     image = models.ImageField(upload_to="featured/")
     url = models.URLField(null=True, blank=True)
+    order = models.IntegerField(null=True, blank=True)
     is_coming_soon = models.BooleanField(default=False)
 
     def __str__(self):

@@ -20,7 +20,7 @@ class ImageInline(admin.TabularInline):
 
 @admin.register(ImageCategory)
 class ImageCategoryAdmin(ImportExportModelAdmin):
-    list_display = ('name', 'slug')
+    list_display = ('name', 'slug', 'order')
     prepopulated_fields = {"slug": ("name",)}
     inlines = [ImageInline]
 
