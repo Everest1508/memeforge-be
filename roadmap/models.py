@@ -3,6 +3,7 @@ from django.utils.text import slugify
 
 class Roadmap(models.Model):
     title = models.CharField(max_length=255)
+    image = models.ImageField(upload_to='roadmap/', null=True)
     description = models.TextField()
     slug = models.SlugField(unique=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
