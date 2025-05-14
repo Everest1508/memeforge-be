@@ -50,6 +50,8 @@ INSTALLED_APPS = [
     'django_summernote',
     'submissions',
     'core',
+    'featured',
+    'roadmap',
 ]
 
 MIDDLEWARE = [
