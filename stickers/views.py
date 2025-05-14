@@ -6,7 +6,7 @@ from .serializers import ImageCategorySerializer, ImageSerializer
 
 # List all categories with their images
 class ImageCategoryListView(generics.ListAPIView):
-    queryset = ImageCategory.objects.all().order_by('order')
+    queryset = ImageCategory.objects.all().order_by('-order')
     serializer_class = ImageCategorySerializer
 
 # List images of a specific category
