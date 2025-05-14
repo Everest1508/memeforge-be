@@ -13,4 +13,4 @@ class RoadmapSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Roadmap
-        fields = ['id', 'title', 'slug', 'description', 'order', 'created_at', 'updated_at', 'images']
+        fields = ['id', 'title', 'image', 'slug', 'description', 'order', 'created_at', 'updated_at', 'images']
