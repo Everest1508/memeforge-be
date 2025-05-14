@@ -17,6 +17,10 @@ class CategoryImageListView(generics.ListAPIView):
         slug = self.kwargs['slug']
         return Image.objects.filter(category__slug=slug)
 
+    def get_serializer_context(self):
+        return {'request': self.request}
+
+
 
 from .serializers import TemplateSerializer
 

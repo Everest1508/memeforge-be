@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     'stickers',
     'django_summernote',
     'submissions',
+    'core',
 ]
 
 MIDDLEWARE = [
@@ -147,10 +148,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 
 CORS_ALLOWED_ORIGINS = [
-    "https://example.com",
-    "https://sub.example.com",
     "http://localhost:3000",
-    "http://127.0.0.1:9000",
     "https://memeforge-v1.vercel.app",
     "https://memeforge.lol",
     "https://www.memeforge.lol",
@@ -186,3 +184,5 @@ DAISY_SETTINGS = {
         },
     },
 }
+
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
