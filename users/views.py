@@ -1,7 +1,11 @@
 from django.http import JsonResponse
 from users.utils import decrypt_token
-
-# Create your views here.
+from rest_framework.response import Response
+from rest_framework import status
+from rest_framework.views import APIView
+from .models import MemeforgeUser
+from .utils import decrypt_token
+from .authentication import CreamTokenAuthentication
 
 def decode_message(request):
     token = request.GET.get('token')
@@ -15,48 +19,24 @@ def decode_message(request):
     except Exception as e:
         return JsonResponse({'error': 'Invalid token or decryption failed'}, status=400)
     
-# views.py
-
-import json
-from rest_framework.response import Response
-from rest_framework import status
-from rest_framework.views import APIView
-from .models import MemeforgeUser
-from .serializers import MemeforgeUserSerializer
-from .utils import decrypt_token  # Assuming decrypt_token is in utils.py
 
 class StoreUserProfileView(APIView):
-    """
-    API to decrypt the encrypted user profile data, check if the user exists by email,
-    and save it to the database if it doesn't exist.
-    """
-    
-    def post(self, request, *args, **kwargs):
-        encrypted_data = request.data.get('encrypted_data')
+    authentication_classes = [CreamTokenAuthentication]
 
-        if not encrypted_data:
-            return Response({'error': 'No encrypted data provided'}, status=status.HTTP_400_BAD_REQUEST)
+    def post(self, request):
+        user = request.user
 
-        try:
-            # Decrypt the data
-            decrypted_data = decrypt_token(encrypted_data)
+        # Check if user already exists in your custom model
+        existing_user = MemeforgeUser.objects.filter(email=user.email).first()
 
-            # Convert decrypted JSON string back to dictionary
-            decrypted_dict = json.loads(decrypted_data)
-
-            # Check if the user already exists by email
-            user = MemeforgeUser.objects.filter(email=decrypted_dict['email']).first()
-
-            if user:
-                return Response({'message': 'ok'}, status=status.HTTP_200_OK)
-
-            user_profile = MemeforgeUser.objects.create(
-                email=decrypted_dict['email'],
-                profile_picture=decrypted_dict['profile_picture'],
-                twitter_x_account=decrypted_dict['x_account']
-            )
-
+        if existing_user:
             return Response({'message': 'ok'}, status=status.HTTP_200_OK)
 
-        except Exception as e:
-            return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        # Create a new user profile (this assumes the auth token had extra info you stored on user)
+        MemeforgeUser.objects.create(
+            email=user.email,
+            profile_picture=request.data.get("profile_picture"),
+            twitter_x_account=request.data.get("x_account"),
+        )
+
+        return Response({'message': 'ok'}, status=status.HTTP_200_OK)

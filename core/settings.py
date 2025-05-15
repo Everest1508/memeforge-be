@@ -184,6 +184,23 @@ DAISY_SETTINGS = {
         },
         'social_django': {
             'icon': 'fa-solid fa-users-gear',
+
+        },
+        'stickers':{
+            'icon':'fa-solid fa-note-sticky',
+            'name': 'Stickers',
+            'hide': False, 
+            'divider_title': "MemeForge", 
+        },
+        'featured':{
+            'icon':'fa-brands fa-wpexplorer',
+            'name':'Featured'
+        },
+        'submissions':{
+            'icon':'fa-solid fa-file',
+        },
+        'roadmap':{
+            'icon':'fa-solid fa-map',
         },
     },
 }
