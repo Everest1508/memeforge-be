@@ -7,12 +7,14 @@ diff-match-patch==20241021
 Django==5.0.7
 django-cloudinary-storage==0.3.0
 django-cors-headers==4.7.0
+django-daisy==1.0.23
 django-import-export==4.3.7
 django-summernote==0.8.20.0
 djangorestframework==3.16.0
 idna==3.7
 pillow==10.4.0
 psycopg2-binary==2.9.9
+pycryptodome==3.22.0
 python-dotenv==1.1.0
 requests==2.32.3
 six==1.16.0
