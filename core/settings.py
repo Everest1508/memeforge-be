@@ -52,6 +52,7 @@ INSTALLED_APPS = [
     'core',
     'featured',
     'roadmap',
+    'users',
 ]
 
 MIDDLEWARE = [

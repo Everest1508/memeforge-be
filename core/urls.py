@@ -26,6 +26,7 @@ urlpatterns = [
     path('',include('submissions.urls')),
     path('',include('roadmap.urls')),
     path('',include('featured.urls')),
+    path('',include('users.urls')),
 ]
 
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
