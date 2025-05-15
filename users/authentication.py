@@ -11,12 +11,12 @@ class CreamTokenAuthentication(BaseAuthentication):
         auth_header = request.headers.get("Authorization")
 
         if not auth_header or not auth_header.startswith("Cream "):
-            return None  # Let DRF try other auth classes
+            return None 
 
         encrypted_token = auth_header.split(" ")[1]
 
         try:
-            decrypted_data = self.decrypt_token(encrypted_token)
+            decrypted_data = decrypt_token(encrypted_token)
         except Exception as e:
             raise AuthenticationFailed(f"Invalid token: {str(e)}")
 
