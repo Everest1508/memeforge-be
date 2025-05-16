@@ -14,7 +14,7 @@ class MemeforgeUserAdmin(admin.ModelAdmin):
 
     def submission_count(self, obj):
         from submissions.models import UserSubmission
-        return UserSubmission.objects.filter(memeforge_user=obj).count()
+        return UserSubmission.objects.filter(email=obj.email).count()
     submission_count.short_description = 'Submissions'
 
     def profile_picture_preview(self, obj):
