@@ -10,7 +10,7 @@ class MemeforgeUserAdmin(admin.ModelAdmin):
 
     def get_queryset(self, request):
         qs = super().get_queryset(request)
-        return qs.annotate(sub_count=Count('usersubmission'))
+        return qs.annotate(sub_count=Count('submissions'))
 
     def submission_count(self, obj):
         return obj.sub_count
