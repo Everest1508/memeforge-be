@@ -5,12 +5,32 @@ from rest_framework.exceptions import ValidationError
 from .models import UserSubmission
 from .serializers import UserSubmissionSerializer
 from users.authentication import CreamTokenAuthentication
+from rest_framework.pagination import PageNumberPagination
 
 
 class UserSubmissionListCreateView(generics.ListCreateAPIView):
     queryset = UserSubmission.objects.all()
     serializer_class = UserSubmissionSerializer
     authentication_classes = [CreamTokenAuthentication]
+    pagination_class = PageNumberPagination 
+
+
+    def get_queryset(self):
+        # Only return submissions made by the current authenticated user
+        return UserSubmission.objects.filter(memeforge_user=self.request.user).order_by('-created_at')
+    
+
+    def list(self, request, *args, **kwargs):
+        queryset = self.get_queryset()
+        page = self.paginate_queryset(queryset)
+
+        if page is not None:
+            serializer = self.get_serializer(page, many=True)
+            return self.get_paginated_response(serializer.data)
+
+        # Fallback: no pagination
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(serializer.data)
 
     def perform_create(self, serializer):
         today = date.today()
@@ -18,7 +38,7 @@ class UserSubmissionListCreateView(generics.ListCreateAPIView):
 
         if UserSubmission.objects.filter(email=email, created_at__date=today).exists():
             raise ValidationError(f"You have already submitted a meme today, {email}.")
-        serializer.save()
+        serializer.save(memeforge_user=self.request.user)
 
     def create(self, request, *args, **kwargs):
         try:
@@ -30,6 +50,7 @@ class UserSubmissionListCreateView(generics.ListCreateAPIView):
             # Add email into incoming request data (frontend doesn't send it)
             data = request.data.copy()
             data['email'] = email
+            
 
             # Validate and create submission
             serializer = self.get_serializer(data=data)
@@ -37,6 +58,7 @@ class UserSubmissionListCreateView(generics.ListCreateAPIView):
 
             try:
                 self.perform_create(serializer)
+
                 message = "Meme successfully submitted!"
             except ValidationError:
                 message = "You already submitted today, but the meme is accepted."
