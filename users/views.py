@@ -47,6 +47,6 @@ class StoreUserProfileView(APIView):
         # Create a new user
         MemeforgeUser.objects.create(
             email=email,
-            image=user_info.get("image")
+            profile_picture=user_info.get("image")
         )
         return Response({'message': 'ok'}, status=status.HTTP_200_OK)
