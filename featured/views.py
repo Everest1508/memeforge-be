@@ -39,7 +39,7 @@ class CheckMCQAnswer(APIView):
 import io
 from django.http import HttpResponse, Http404
 from PIL import Image, ImageDraw, ImageFont
-from .models import UserTabiPayCardOverlay
+from users.models import UserTabiPayCardOverlay
 
 from django.conf import settings
 import os
