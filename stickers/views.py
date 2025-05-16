@@ -8,11 +8,13 @@ from .serializers import ImageCategorySerializer, ImageSerializer
 class ImageCategoryListView(generics.ListAPIView):
     queryset = ImageCategory.objects.all().order_by('-order')
     serializer_class = ImageCategorySerializer
+    pagination_class = None
 
 # List images of a specific category
 class CategoryImageListView(generics.ListAPIView):
     serializer_class = ImageSerializer
-
+    pagination_class = None
+    
     def get_queryset(self):
         slug = self.kwargs['slug']
         return Image.objects.filter(category__slug=slug)

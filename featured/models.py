@@ -41,3 +41,4 @@ class MCQOption(models.Model):
 
     def __str__(self):
         return f"{self.option_text} ({'Correct' if self.is_correct else 'Wrong'})"
+

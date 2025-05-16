@@ -34,3 +34,41 @@ class CheckMCQAnswer(APIView):
             })
         except MCQOption.DoesNotExist:
             return Response({'error': 'Invalid question or option.'}, status=status.HTTP_400_BAD_REQUEST)
+        
+
+import io
+from django.http import HttpResponse, Http404
+from PIL import Image, ImageDraw, ImageFont
+from .models import UserTabiPayCardOverlay
+
+from django.conf import settings
+import os
+
+def serve_tabipay_image(request, uuid):
+    try:
+        overlay = UserTabiPayCardOverlay.objects.select_related('card').get(uuid=uuid)
+    except UserTabiPayCardOverlay.DoesNotExist:
+        raise Http404("Card not found")
+
+    card_image_path = overlay.card.image.path
+    try:
+        image = Image.open(card_image_path).convert("RGBA")
+    except Exception:
+        raise Http404("Image not found or unreadable")
+
+    # Draw on image
+    draw = ImageDraw.Draw(image)
+    
+    # Use default font or provide a TTF path
+    font_path = os.path.join(settings.BASE_DIR, "arial.ttf")  # Place the font in BASE_DIR
+    font = ImageFont.truetype(font_path, size=36)
+
+    draw.text((30, 30), f"@{overlay.username}", fill="white", font=font)
+    draw.text((30, 80), overlay.name, fill="white", font=font)
+
+    # Save to memory and return
+    buffer = io.BytesIO()
+    image.save(buffer, format="PNG")
+    buffer.seek(0)
+
+    return HttpResponse(buffer, content_type="image/png")
