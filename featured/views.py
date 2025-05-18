@@ -118,7 +118,6 @@ class RandomOrCreateTabiPayOverlay(APIView):
         if user and not user.email == "sobix13@gmail.com":
             recent_overlay = UserTabiPayCardOverlay.objects.filter(
                 user=user,
-                card=card,
                 created_at__gte=timezone.now() - timedelta(days=7)
             ).first()
 
