@@ -6,6 +6,7 @@ from rest_framework.views import APIView
 from .models import MemeforgeUser
 from .utils import decrypt_token
 import json
+
 def decode_message(request):
     token = request.GET.get('token')
     print(token)
