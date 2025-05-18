@@ -81,6 +81,12 @@ def serve_tabipay_image(request, uuid):
     buffer = io.BytesIO()
     image.save(buffer, format="PNG")
     buffer.seek(0)
+    response = HttpResponse(buffer, content_type="image/png")
+    response["Content-Disposition"] = f'inline; filename="{uuid}.png"'
+    response["Cache-Control"] = "public, max-age=31536000"  # 1 year
+    response["Content-Length"] = str(buffer.getbuffer().nbytes)
+    return response
+
 
     return HttpResponse(buffer, content_type="image/png")
 
