@@ -8,6 +8,10 @@ class MemeforgeUser(models.Model):
     x_account = models.CharField(_("X Profile"), max_length=50,null=True,blank=True)
     profile_picture = models.URLField(null=True,blank=True)
 
+    def __str__(self):
+        return self.email
+    
+
 
 
 class UserTabiPayCardOverlay(models.Model):
