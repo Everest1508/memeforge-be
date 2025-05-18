@@ -17,6 +17,7 @@ from users.models import UserTabiPayCardOverlay
 from django.conf import settings
 import os
 from users.utils import get_user
+from users.authentication import CreamTokenAuthentication
 
 class FeaturedListView(generics.ListAPIView):
     queryset = Featured.objects.all().order_by('order')
@@ -143,3 +144,21 @@ class RandomOrCreateTabiPayOverlay(APIView):
             "name_text": overlay.name_text,
             "created_at": overlay.created_at
         }, status=status.HTTP_201_CREATED)
+    
+
+class CheckTabiPayCreation(APIView):
+    authentication_classes = [CreamTokenAuthentication]
+    def post(self, request):
+        recent_overlay = UserTabiPayCardOverlay.objects.filter(
+            user=request.user,
+            created_at__gte=timezone.now() - timedelta(days=7)
+        ).first()
+
+        if recent_overlay:
+            return Response({
+                "can_create": False,
+                "overlay_id": str(recent_overlay.id),
+                "created_at": recent_overlay.created_at
+            }, status=status.HTTP_200_OK)
+
+        return Response({"can_create": True}, status=status.HTTP_200_OK)
