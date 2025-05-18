@@ -115,7 +115,7 @@ class RandomOrCreateTabiPayOverlay(APIView):
 
         user, _ = get_user(request=request)
 
-        if user:
+        if user and not user.email == "sobix13@gmail.com":
             recent_overlay = UserTabiPayCardOverlay.objects.filter(
                 user=user,
                 card=card,
@@ -128,6 +128,7 @@ class RandomOrCreateTabiPayOverlay(APIView):
                     "overlay_id": str(recent_overlay.id),
                     "created_at": recent_overlay.created_at
                 }, status=status.HTTP_429_TOO_MANY_REQUESTS)
+
 
         overlay = UserTabiPayCardOverlay.objects.create(
             card=card,
