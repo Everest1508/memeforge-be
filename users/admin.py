@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.utils.html import format_html
-from .models import MemeforgeUser
+from .models import MemeforgeUser, UserTabiPayCardOverlay
 from django.db.models import Count
 
 @admin.register(MemeforgeUser)
@@ -22,3 +22,9 @@ class MemeforgeUserAdmin(admin.ModelAdmin):
             return format_html('<img src="{}" width="50" height="50" style="border-radius: 50%;" />', obj.profile_picture)
         return "-"
     profile_picture_preview.short_description = 'Profile Pic'
+
+
+@admin.register(UserTabiPayCardOverlay)
+class UserTabiPayCardAdmin(admin.ModelAdmin):
+    list_display =['id','username_text', 'name_text']
+    pass

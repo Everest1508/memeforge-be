@@ -12,7 +12,7 @@ class MemeforgeUser(models.Model):
 
 class UserTabiPayCardOverlay(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    user = models.ForeignKey(MemeforgeUser, on_delete=models.CASCADE, related_name='tabipay_overlays')
+    user = models.ForeignKey(MemeforgeUser, on_delete=models.CASCADE, related_name='tabipay_overlays', null=True)
     card = models.ForeignKey("featured.TabiPayCard", on_delete=models.CASCADE, related_name='user_overlays')
     
     username_text = models.CharField(max_length=100)

@@ -12,11 +12,26 @@ class Featured(models.Model):
     def __str__(self):
         return self.title
 
+class MemeforgeFont(models.Model):
+    name = models.CharField(max_length=100)
+    file = models.FileField(upload_to="fonts/")
+
+    def __str__(self):
+        return self.name
+
 
 class TabiPayCard(models.Model):
     title = models.CharField(max_length=150)
     image = models.ImageField(upload_to="tabipay/")
     description = models.TextField(blank=True)
+    username_x = models.FloatField(null=True, default=450)
+    username_y = models.FloatField(null=True, default=900)
+    name_x = models.FloatField(null=True, default=450)
+    name_y = models.FloatField(null=True, default= 850)
+    name_font_size = models.FloatField(null=True, default=50)
+    username_font_size = models.FloatField(null=True,default=35)
+    font = models.ForeignKey(MemeforgeFont, on_delete=models.SET_NULL, null=True, blank=True)
+    
 
     def __str__(self):
         return self.title

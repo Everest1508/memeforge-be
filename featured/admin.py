@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Featured, TabiPayCard, QuestionCategory, MCQQuestion, MCQOption
+from .models import Featured, TabiPayCard, QuestionCategory, MCQQuestion, MCQOption, MemeforgeFont
 
 @admin.register(Featured)
 class FeaturedAdmin(admin.ModelAdmin):
@@ -21,3 +21,7 @@ class MCQQuestionAdmin(admin.ModelAdmin):
 @admin.register(QuestionCategory)
 class QuestionCategoryAdmin(admin.ModelAdmin):
     list_display = ['name']
+
+@admin.register(MemeforgeFont)
+class MemeforgeFont(admin.ModelAdmin):
+    pass
